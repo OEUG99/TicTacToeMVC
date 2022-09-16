@@ -2,7 +2,7 @@ public class TicTacToe {
 
     private static int argumentParser(String[] args){
         if (args.length == 0){
-            return 0; // returns 1 for two human mode
+            return 1; // returns 1 for two human mode
         }
 
         if (args[0].equals("-c") && args[1] == null){
@@ -17,7 +17,7 @@ public class TicTacToe {
                 return 4; // return 4 for human player 1, computer player 2
         }
 
-        return 0; // return 0 for a default.
+        return 1; // return 1 for a default.
     }
 
     public static void main(String[] args) {
@@ -33,10 +33,10 @@ public class TicTacToe {
         View.init();
         Control.setGamemode(gamemode);
 
-
         while(isGameAlive){
-            Control.update();
-            //isGameAlive = false;
+            if(Control.update()) {
+                isGameAlive = false;
+            };
         }
 
     }

@@ -7,43 +7,85 @@ public class GameControl {
 
     private int current_turn;
 
+    private int gamemode;
+
     public GameControl(GameView v, GameModel m){
         this.View = v;
         this.Model = m;
-        this.current_turn = 1; // start with player 1.
+        this.current_turn = -1; // start with player 1.
+        this.gamemode = 1; // 2 players will the default gamemode.
     }
     
     public void setGamemode(int gamemode) {
+        this.gamemode = gamemode;
+    }
+
+    private int computeAIMove(boolean isUnbeatable){
+        return 0;
     }
 
     private int getInput(String message){
        int input;
 
-       View.drawMessage(message);
+        View.drawMessage(message);
 
-       Scanner scanner = new Scanner(System.in);
-       input = scanner.nextInt();
+        switch(gamemode){
+            case 2: // two computer mode:
+                input = 0;
+                break;
+            case 3: // computer is player 1, human player 2
+                input = 0;
+                break;
+            case 4: // human player 1, computer player 2
+                input = 0;
+                break;
+            default:
+                Scanner scanner = new Scanner(System.in);
+                input = scanner.nextInt();
+                break;
+        }
+
 
         return input;
     }
 
     private void changeTurn(){
         switch(current_turn){
-            case 1:
-                current_turn = 2;
+            case -1:
+                current_turn = 1;
                 break;
-            case 2:
-                current_turn = 1 ;
+            case 1:
+                current_turn = -1 ;
                 break;
         }
     }
 
 
-    public void update() {
-        //Model.updateBoard(0,0,2);
-        int PlayersMove = getInput("Player " + current_turn + ", please enter a move(1-9) ");
-        Model.updateBoard(PlayersMove,current_turn);
+    private boolean checkForWinner() {
+        boolean result = false;
+        if (Model.scanForWin()){
+            View.drawMessage("winner is " + current_turn);
+            result = true;
+        }
+        return result;
+    }
+
+    public boolean update() {
+
+        while (true){ // Looping to insure input is valid.
+            int PlayersMove = getInput("Player " + current_turn + ", please enter a move(1-9) ");
+            if (!Model.updateBoard(PlayersMove,current_turn)) { // if the input is not valid,
+                View.drawMessage("invalid input, please try again.");
+            } else {
+                break;
+            }
+        }
+
         changeTurn();
         View.drawBoard(Model.getBoard());
+
+        return checkForWinner();
     }
+
+
 }
