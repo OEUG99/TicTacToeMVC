@@ -82,6 +82,7 @@ public class GameControl {
 
         while (true){ // Looping to insure input is valid.
             int PlayersMove = getInput("Player " + current_turn + ", please enter a move(1-9) ");
+
             if (!Model.updateBoard(PlayersMove,current_turn)) { // if the input is not valid,
                 View.drawMessage("invalid input, please try again.");
             } else {
@@ -94,6 +95,5 @@ public class GameControl {
 
         return checkForWinner();
     }
-
 
 }

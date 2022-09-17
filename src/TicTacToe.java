@@ -31,7 +31,6 @@ public class TicTacToe {
 
         // Initializing the view;
         View.init(Model.getBoard());
-        System.out.println(args);
         Control.setGamemode(gamemode);
 
         while(isGameAlive){

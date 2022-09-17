@@ -134,7 +134,24 @@ public class GameModel {
             }
         }
 
-        // todo: check diangles
+        // first diag
+        if ( abs(board[0][0] + board[1][1]) == 2){
+            return 9;
+        } else if ( abs(board[0][0] + board[2][2]) == 2) {
+            return 5;
+        } else if (abs(board[2][2] + board[1][1]) == 2) {
+            return 1;
+        }
+
+        // second diag
+        if ( abs(board[2][0] + board[1][1]) == 2){
+            return 3;
+        } else if (abs(board[0][2] + board[1][1]) == 2) {
+            return 7;
+        } else if (abs(board[0][2] + board[2][0]) == 2) {
+            return 5;
+        }
+
         return result;
 
     }
