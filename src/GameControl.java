@@ -23,6 +23,10 @@ public class GameControl {
 
     private int computeAIMove(boolean isUnbeatable){
         int winningPos = Model.getWinningPos(); // agnostic of which player.
+        int[] playableSpaces;
+        Random random = new Random();
+        int ranChoice;
+
 
         if (winningPos != 0) { // if there is a winning move for either players then take it.
             System.out.println(winningPos);
@@ -30,8 +34,9 @@ public class GameControl {
         } else if (Model.getBoard()[1][1] == 0){ // if center of the board is avaliable, take it.
             return 5;
         } else {
-            Scanner scanner = new Scanner(System.in);
-            return scanner.nextInt();
+            playableSpaces = Model.fetchPlayablePos();
+            ranChoice = random.nextInt(playableSpaces.length);
+            return playableSpaces[ranChoice];
         }
     }
 
@@ -85,6 +90,7 @@ public class GameControl {
 
             if (!Model.updateBoard(PlayersMove,current_turn)) { // if the input is not valid,
                 View.drawMessage("invalid input, please try again.");
+                View.drawBoard(Model.getBoard());
             } else {
                 break;
             }

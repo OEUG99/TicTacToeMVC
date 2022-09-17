@@ -6,11 +6,13 @@ public class GameModel {
     private final int[][] board;
 
 
-    public GameModel(){
+    public GameModel() {
         this.board = new int[3][3];
     }
 
-    public int[][] getBoard(){return board;}
+    public int[][] getBoard() {
+        return board;
+    }
 
 
     public void updateBoard(int row, int col, int state) {
@@ -18,8 +20,8 @@ public class GameModel {
     }
 
 
-    public int convertCordsToPos(int x, int y){
-      return (x * 3) + (y % 3) +1;
+    public int convertCordsToPos(int x, int y) {
+        return (x * 3) + (y % 3) + 1;
 
           /*
         if (x == 0 && y == 0){
@@ -44,19 +46,21 @@ public class GameModel {
 
                */
 
-    };
+    }
+
+    ;
 
 
-    public boolean updateBoard(int pos, int current_turn){
+    public boolean updateBoard(int pos, int current_turn) {
         boolean result = false;
-        int col = (pos -1 ) % 3;
+        int col = (pos - 1) % 3;
         int row = (int) floor(pos / 3.5);
 
-        if ( !(pos > 0 && pos < 10) ) { // if input is not in range 1 through 9
+        if (!(pos > 0 && pos < 10)) { // if input is not in range 1 through 9
             return false;
         }
 
-        if ( abs(this.board[row][col]) != 1){ // if a play has already been made.
+        if (abs(this.board[row][col]) != 1) { // if a play has already been made.
             this.board[row][col] = current_turn;
             result = true;
         }
@@ -64,7 +68,7 @@ public class GameModel {
         return result;
     }
 
-    public boolean scanForWin(){
+    public boolean scanForWin() {
         int[][] board = getBoard();
         boolean result = false;
 
@@ -75,7 +79,7 @@ public class GameModel {
                 csum += board[i][j];
                 rsum += board[j][i];
 
-                if ( (abs(csum) == 3) || (abs(rsum) == 3) ) {
+                if ((abs(csum) == 3) || (abs(rsum) == 3)) {
                     // View.drawMessage("winner is " + current_turn);
                     result = true;
                 }
@@ -87,6 +91,7 @@ public class GameModel {
         return result;
     }
 
+    // todo: this is unneeded and can be removed/reimplemented as we have a function to determine if there are playable areas.
     public boolean scanForDraw() {
         boolean isPlayableMove = false;
         for (int i = 0; i < 3; i++) {
@@ -96,10 +101,10 @@ public class GameModel {
                 }
             }
         }
-        return !(isPlayableMove); // If there is no playable move its a draw.
+        return !(isPlayableMove); // If there is no playable move it's a draw.
     }
 
-    private boolean scanDiagnoles(){
+    private boolean scanDiagnoles() {
         int[][] board = getBoard();
         int d1_sum = board[0][0] + board[1][1] + board[2][2];
         int d2_sum = board[2][0] + board[1][1] + board[0][2];
@@ -120,41 +125,57 @@ public class GameModel {
                 rsum += board[j][i];
 
 
-                if ( (abs(csum) == 2) ) {
-                    if (board[i][j] != 0){
+                if ((abs(csum) == 2)) {
+                    if (board[i][j] != 0) {
                         continue;
                     }
-                    result = convertCordsToPos(i, j);
-                } else if ( (abs(rsum) == 2) ) {
-                    if (board[j][i] != 0){
+                    return convertCordsToPos(i, j);
+                } else if ((abs(rsum) == 2)) {
+                    if (board[j][i] != 0) {
                         continue;
                     }
-                    result = convertCordsToPos(j, i);
+                    return convertCordsToPos(j, i);
                 }
             }
         }
 
         // first diag
-        if ( abs(board[0][0] + board[1][1]) == 2){
-            return 9;
-        } else if ( abs(board[0][0] + board[2][2]) == 2) {
-            return 5;
-        } else if (abs(board[2][2] + board[1][1]) == 2) {
-            return 1;
+        if ( (abs(board[0][0] + board[1][1]) == 2) && board[2][2] == 0) {
+            result = 9;
+        } else if ( (abs(board[0][0] + board[2][2]) == 2 ) && board[1][1] == 0) {
+            result = 5;
+        } else if ( (abs(board[2][2] + board[1][1]) == 2) && board[0][0] == 0) {
+            result = 1;
         }
 
         // second diag
-        if ( abs(board[2][0] + board[1][1]) == 2){
-            return 3;
-        } else if (abs(board[0][2] + board[1][1]) == 2) {
-            return 7;
-        } else if (abs(board[0][2] + board[2][0]) == 2) {
-            return 5;
+        if ( (abs(board[2][0] + board[1][1]) == 2) && board[0][2] == 0) {
+            result = 3;
+        } else if ( (abs(board[0][2] + board[1][1]) == 2) && board[2][0] == 0) {
+            result = 7;
+        } else if ( (abs(board[0][2] + board[2][0]) == 2) && board[1][1] == 0) {
+            result = 5;
         }
+
+
 
         return result;
 
     }
 
+    public int[] fetchPlayablePos() {
+        int[][] board = getBoard();
+        int[] playablePos = new int[9];
 
+        int iter = 0;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (board[i][j] == 0) {
+                    playablePos[iter] = convertCordsToPos(i,j);
+                    iter = iter + 1;
+                }
+            }
+        }
+        return playablePos;
+    }
 }
