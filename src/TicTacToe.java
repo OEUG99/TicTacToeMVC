@@ -5,7 +5,7 @@ public class TicTacToe {
             return 1; // returns 1 for two human mode
         }
 
-        if (args[0].equals("-c") && args[1] == null){
+        if (args[0].equals("-c")){
             return 2; // return 2 for two computer mode.
         }
 
@@ -30,7 +30,8 @@ public class TicTacToe {
         GameControl Control = new GameControl(View, Model);
 
         // Initializing the view;
-        View.init();
+        View.init(Model.getBoard());
+        System.out.println(args);
         Control.setGamemode(gamemode);
 
         while(isGameAlive){

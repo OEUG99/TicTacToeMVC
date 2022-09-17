@@ -1,3 +1,4 @@
+import java.util.Random;
 import java.util.Scanner;
 
 public class GameControl {
@@ -21,8 +22,19 @@ public class GameControl {
     }
 
     private int computeAIMove(boolean isUnbeatable){
-        return 0;
+        int winningPos = Model.getWinningPos(); // agnostic of which player.
+
+        if (winningPos != 0) { // if there is a winning move for either players then take it.
+            System.out.println(winningPos);
+            return winningPos;
+        } else if (Model.getBoard()[1][1] == 0){ // if center of the board is avaliable, take it.
+            return 5;
+        } else {
+            Scanner scanner = new Scanner(System.in);
+            return scanner.nextInt();
+        }
     }
+
 
     private int getInput(String message){
        int input;
@@ -31,7 +43,7 @@ public class GameControl {
 
         switch(gamemode){
             case 2: // two computer mode:
-                input = 0;
+                input = computeAIMove(false);
                 break;
             case 3: // computer is player 1, human player 2
                 input = 0;
@@ -50,14 +62,7 @@ public class GameControl {
     }
 
     private void changeTurn(){
-        switch(current_turn){
-            case -1:
-                current_turn = 1;
-                break;
-            case 1:
-                current_turn = -1 ;
-                break;
-        }
+        current_turn *= -1;
     }
 
 
@@ -65,6 +70,9 @@ public class GameControl {
         boolean result = false;
         if (Model.scanForWin()){
             View.drawMessage("winner is " + current_turn);
+            result = true;
+        } else if (Model.scanForDraw()) {
+            View.drawMessage("There is a draw!");
             result = true;
         }
         return result;

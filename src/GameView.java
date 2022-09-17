@@ -1,6 +1,9 @@
 public class GameView {
-    public void init(){
-
+    public void init(int[][] board){
+        drawBoard(board);
+        // anything else for initialization would go here, for example
+        // if using a graphic library this is where you would initialize
+        // window sizes etc.
     }
 
 
