@@ -22,7 +22,7 @@ public class GameControl {
     }
 
     private int computeAIMove(boolean isUnbeatable){
-        int winningPos = Model.getWinningPos(); // agnostic of which player.
+        int winningPos = Model.getWinningPos(); // agnostic of any player.
         int[] playableSpaces;
         Random random = new Random();
         int ranChoice;
@@ -33,11 +33,25 @@ public class GameControl {
             return winningPos;
         } else if (Model.getBoard()[1][1] == 0){ // if center of the board is avaliable, take it.
             return 5;
+        } else if (isUnbeatable){
+            // todo - write unbeatable code
+            playableSpaces = Model.fetchPlayablePos();
+            ranChoice = random.nextInt(playableSpaces.length);
+            return playableSpaces[ranChoice];
         } else {
+            // if there are no good moves for the beatable bot to make, then random select:
             playableSpaces = Model.fetchPlayablePos();
             ranChoice = random.nextInt(playableSpaces.length);
             return playableSpaces[ranChoice];
         }
+    }
+
+    private int getUserInput(){
+        int input;
+        Scanner scanner = new Scanner(System.in);
+        input = scanner.nextInt();
+
+        return input;
     }
 
 
@@ -47,14 +61,22 @@ public class GameControl {
         View.drawMessage(message);
 
         switch(gamemode){
-            case 2: // two computer mode:
+            case 0: // two computer mode:
                 input = computeAIMove(false);
                 break;
-            case 3: // computer is player 1, human player 2
-                input = 0;
+            case 1: // computer is player 1, human player 2
+                if (current_turn == -1) {
+                    input = computeAIMove(false);
+                } else {
+                    input = getUserInput();
+                }
                 break;
-            case 4: // human player 1, computer player 2
-                input = 0;
+            case 2: // human player 1, computer player 2
+                if (current_turn == 1) {
+                    input = computeAIMove(false);
+                } else {
+                    input = getUserInput();
+                }
                 break;
             default:
                 Scanner scanner = new Scanner(System.in);
@@ -74,7 +96,7 @@ public class GameControl {
     private boolean checkForWinner() {
         boolean result = false;
         if (Model.scanForWin()){
-            View.drawMessage("winner is " + current_turn);
+            View.drawMessage("winner is " + (current_turn * -1));
             result = true;
         } else if (Model.scanForDraw()) {
             View.drawMessage("There is a draw!");

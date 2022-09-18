@@ -48,8 +48,6 @@ public class GameModel {
 
     }
 
-    ;
-
 
     public boolean updateBoard(int pos, int current_turn) {
         boolean result = false;
@@ -68,7 +66,7 @@ public class GameModel {
         return result;
     }
 
-    public boolean scanForWin() {
+    public boolean scanForWin() { // todo: this could probably be refactored
         int[][] board = getBoard();
         boolean result = false;
 
@@ -104,7 +102,7 @@ public class GameModel {
         return !(isPlayableMove); // If there is no playable move it's a draw.
     }
 
-    private boolean scanDiagnoles() {
+    private boolean scanDiagnoles() { // todo this could probably be refractored
         int[][] board = getBoard();
         int d1_sum = board[0][0] + board[1][1] + board[2][2];
         int d2_sum = board[2][0] + board[1][1] + board[0][2];
@@ -156,8 +154,6 @@ public class GameModel {
         } else if ( (abs(board[0][2] + board[2][0]) == 2) && board[1][1] == 0) {
             result = 5;
         }
-
-
 
         return result;
 
