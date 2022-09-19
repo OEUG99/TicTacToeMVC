@@ -1,17 +1,29 @@
+import java.util.ArrayList;
+
 import static java.lang.Math.abs;
 import static java.lang.Math.floor;
 
 public class GameModel {
 
     private final int[][] board;
+    private int current_turn;
 
 
     public GameModel() {
         this.board = new int[3][3];
+        this.current_turn = -1; // start with player 1.
     }
 
     public int[][] getBoard() {
         return board;
+    }
+
+    public int getCurrent_turn(){
+        return current_turn;
+    }
+
+    public void changeTurn(){
+        current_turn *= -1;
     }
 
 
@@ -22,30 +34,6 @@ public class GameModel {
 
     public int convertCordsToPos(int x, int y) {
         return (x * 3) + (y % 3) + 1;
-
-          /*
-        if (x == 0 && y == 0){
-            return 1;
-        } else if (x == 0 && y == 1){
-            return 2;
-        } else if (x == 0 && y == 2){
-            return 3;
-        } else if (x == 1 && y == 0){
-            return 4;
-        } else if (x == 1 && y == 1) {
-            return 5;
-        } else if (x == 1 && y == 2){
-            return 6;
-        } else if (x == 2 && y == 0){
-            return 7;
-        } else if (x == 2 && y == 1){
-            return 8;
-        } else if (x== 2 && y == 2){
-            return 9;
-        }
-
-               */
-
     }
 
 
@@ -78,18 +66,107 @@ public class GameModel {
                 rsum += board[j][i];
 
                 if ((abs(csum) == 3) || (abs(rsum) == 3)) {
-                    // View.drawMessage("winner is " + current_turn);
-                    result = true;
+                    return true;
                 }
             }
         }
-        if (!result) { // if we do not already have a winner, scan the Diagnoles.
-            result = scanDiagnoles();
-        }
-        return result;
+         // if we do not already have a winner, scan the Diagnoles.
+        return scanDiagnoles();
     }
 
-    // todo: this is unneeded and can be removed/reimplemented as we have a function to determine if there are playable areas.
+
+    private boolean scanDiagnoles() { // todo this could probably be refractored
+        int[][] board = getBoard();
+        int d1_sum = board[0][0] + board[1][1] + board[2][2];
+        int d2_sum = board[2][0] + board[1][1] + board[0][2];
+
+        return (abs(d1_sum) == 3) || (abs(d2_sum) == 3);
+    }
+
+
+
+    public int getWinningPos(int player) {
+        int[][] board = getBoard();
+        int result = 0; // if no winning spot return 0;
+
+        // todo: if have time before deadline try to finish the refractor of this, see commit [0952db953d4c9be7b4f48c9ffe6621cf5c6d1088](https://github.com/OEUG99/TicTacToeMVC/commit/0952db953d4c9be7b4f48c9ffe6621cf5c6d1088)
+        // was my attempt at that, but was rolled back due to not functioning.
+
+        // start of rows
+        if ( (board[0][0] + board[0][1] == 2 * player) && board[0][2] == 0) {
+            result = 3;
+        } else if ( (board[0][0] + board[0][2] == 2 * player) && board[0][1] == 0) {
+            result = 2;
+        } else if ( (board[0][1] + board[0][2] == 2 * player) && board[0][0] == 0) {
+            result = 1;
+        }
+
+        if ( (board[1][0] + board[1][1] == 2 * player) && board[1][2] == 0) {
+            result = 6;
+        } else if ( (board[1][0] + board[1][2] == 2 * player) && board[1][1] == 0) {
+            result = 5;
+        } else if ( (board[1][1] + board[1][2] == 2 * player) && board[1][0] == 0) {
+            result = 4;
+        }
+
+
+        if ( (board[2][0] + board[2][1] == 2 * player) && board[2][2] == 0) {
+            result = 9;
+        } else if ( (board[2][0] + board[2][2] == 2 * player) && board[2][1] == 0) {
+            result = 8;
+        } else if ( (board[2][1] + board[2][2] == 2 * player) && board[2][0] == 0) {
+            result = 7;
+        } // end of rows
+
+        //start of columns
+        if ( (board[0][0] + board[1][0] == 2 * player) && board[2][0] == 0) {
+            result = 7;
+        } else if ( (board[2][0] + board[0][0] == 2 * player) && board[1][0] == 0) {
+            result = 4;
+        } else if ( (board[1][0] + board[2][0] == 2 * player) && board[0][0] == 0) {
+            result = 1;
+        }
+
+        if ( (board[2][1] + board[1][1] == 2 * player) && board[0][1] == 0) {
+            result = 2;
+        } else if ( (board[0][1] + board[2][1] == 2 * player) && board[1][1] == 0) {
+            result = 5;
+        } else if ( (board[1][1] + board[0][1] == 2 * player) && board[2][1] == 0) {
+            result = 8;
+        }
+
+        if ( (board[1][2] + board[2][2] == 2 * player) && board[0][2] == 0) {
+            result = 3;
+        } else if ( (board[0][2] + board[2][2] == 2 * player) && board[1][2] == 0) {
+            result = 6;
+        } else if ( (board[0][2] + board[1][2] == 2 * player) && board[2][2] == 0) {
+            result = 9;
+        } // end of verts
+
+
+        // first diag
+        if ( (board[0][0] + board[1][1] == 2 * player) && board[2][2] == 0) {
+            result = 9;
+        } else if ( (board[0][0] + board[2][2] == 2 * player) && board[1][1] == 0) {
+            result = 5;
+        } else if ( (board[2][2] + board[1][1] == 2 * player) && board[0][0] == 0) {
+            result = 1;
+        }
+
+        // second diag
+        if ( (board[2][0] + board[1][1] == 2 * player) && board[0][2] == 0) {
+            result = 3;
+        } else if ( (board[0][2] + board[1][1] == 2 * player) && board[2][0] == 0) {
+            result = 7;
+        } else if ( (board[0][2] + board[2][0] == 2 * player) && board[1][1] == 0) {
+            result = 5;
+        }
+
+        return result;
+
+    }
+
+
     public boolean scanForDraw() {
         boolean isPlayableMove = false;
         for (int i = 0; i < 3; i++) {
@@ -102,76 +179,23 @@ public class GameModel {
         return !(isPlayableMove); // If there is no playable move it's a draw.
     }
 
-    private boolean scanDiagnoles() { // todo this could probably be refractored
+
+    public ArrayList<Integer> fetchPlayablePos() {
         int[][] board = getBoard();
-        int d1_sum = board[0][0] + board[1][1] + board[2][2];
-        int d2_sum = board[2][0] + board[1][1] + board[0][2];
-
-        return (abs(d1_sum) == 3) || (abs(d2_sum) == 3);
-    }
-
-    public int getWinningPos() {
-
-        int[][] board = getBoard();
-        int result = 0; // if no winning spot return 0;
-
-        for (int i = 0; i < 3; i++) {
-            int csum = 0;
-            int rsum = 0;
-            for (int j = 0; j < 3; j++) {
-                csum += board[i][j];
-                rsum += board[j][i];
-
-
-                if ((abs(csum) == 2)) {
-                    if (board[i][j] != 0) {
-                        continue;
-                    }
-                    return convertCordsToPos(i, j);
-                } else if ((abs(rsum) == 2)) {
-                    if (board[j][i] != 0) {
-                        continue;
-                    }
-                    return convertCordsToPos(j, i);
-                }
-            }
-        }
-
-        // first diag
-        if ( (abs(board[0][0] + board[1][1]) == 2) && board[2][2] == 0) {
-            result = 9;
-        } else if ( (abs(board[0][0] + board[2][2]) == 2 ) && board[1][1] == 0) {
-            result = 5;
-        } else if ( (abs(board[2][2] + board[1][1]) == 2) && board[0][0] == 0) {
-            result = 1;
-        }
-
-        // second diag
-        if ( (abs(board[2][0] + board[1][1]) == 2) && board[0][2] == 0) {
-            result = 3;
-        } else if ( (abs(board[0][2] + board[1][1]) == 2) && board[2][0] == 0) {
-            result = 7;
-        } else if ( (abs(board[0][2] + board[2][0]) == 2) && board[1][1] == 0) {
-            result = 5;
-        }
-
-        return result;
-
-    }
-
-    public int[] fetchPlayablePos() {
-        int[][] board = getBoard();
-        int[] playablePos = new int[9];
+        // todo: ask if ArrayLists are allowed.
+        ArrayList<Integer> playablePos = new ArrayList<Integer>(0);
+        //int[] possiblePos = new int[9];
 
         int iter = 0;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (board[i][j] == 0) {
-                    playablePos[iter] = convertCordsToPos(i,j);
+                    playablePos.add(convertCordsToPos(i,j));
                     iter = iter + 1;
                 }
             }
         }
+
         return playablePos;
     }
 }
