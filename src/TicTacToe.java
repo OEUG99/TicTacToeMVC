@@ -1,7 +1,14 @@
 
+
+/*
+TicTacToe written in Java using a pure MVC design pattern.
+The benefit to using MVC is that the viewing code, data modeling/storage, and input/controlling
+is all isolated.
+
+In theory, you can swap these components with others. For example, the view can be swapped out with a view for a graphics
+library instead of ascii, and all the rest of the code will function the same.
+ */
 public class TicTacToe {
-
-
 
     public static void main(String[] args) {
         boolean isGameAlive = true;

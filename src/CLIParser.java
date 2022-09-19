@@ -6,7 +6,7 @@ public class CLIParser {
     private String current_Parameter;
 
 
-    public CLIParser(String[] args){
+    public CLIParser(String[] args){ // todo: move this code to be insude the control.
         try {
             for (String arg : args) {
 

@@ -11,7 +11,8 @@ public class GameModel {
 
     public GameModel() {
         this.board = new int[3][3];
-        this.current_turn = -1; // start with player 1.
+        this.current_turn = -1; // player 1 represented as -1, player 2 represented as 1
+                                // this allows us to easily convert between which player's turn it is via multiply by -1.
     }
 
     public int[][] getBoard() {
@@ -54,7 +55,7 @@ public class GameModel {
         return result;
     }
 
-    public boolean scanForWin() { // todo: this could probably be refactored
+    public boolean scanForWin() {
         int[][] board = getBoard();
         boolean result = false;
 
@@ -178,7 +179,6 @@ public class GameModel {
         }
         return !(isPlayableMove); // If there is no playable move it's a draw.
     }
-
 
     public ArrayList<Integer> fetchPlayablePos() {
         int[][] board = getBoard();
