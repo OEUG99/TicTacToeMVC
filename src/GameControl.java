@@ -121,6 +121,9 @@ public class GameControl {
                 break;
         }
 
+        if(gamemode == 0 || gamemode == 1 || gamemode == 2){ // prints out the AI's input
+            View.drawMessage(input + "\n");
+        }
 
         return input;
     }
