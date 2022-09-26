@@ -105,6 +105,7 @@ public class GameControl {
             case 1: // computer is player 1, human player 2
                 if (current_turn == -1) {
                     input = computeAIMove(false);
+                    View.drawMessage(input + "\n");
                 } else {
                     input = getUserInput();
                 }
@@ -112,6 +113,7 @@ public class GameControl {
             case 2: // human player 1, computer player 2
                 if (current_turn == 1) {
                     input = computeAIMove(false);
+                    View.drawMessage(input + "\n");
                 } else {
                     input = getUserInput();
                 }
@@ -119,10 +121,6 @@ public class GameControl {
             default:
                 input = getUserInput();
                 break;
-        }
-
-        if(gamemode == 0 || gamemode == 1 || gamemode == 2){ // prints out the AI's input
-            View.drawMessage(input + "\n");
         }
 
         return input;
