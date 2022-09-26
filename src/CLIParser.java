@@ -6,7 +6,7 @@ public class CLIParser {
     private String current_Parameter;
 
 
-    public CLIParser(String[] args){ // todo: move this code to be insude the control.
+    public CLIParser(String[] args){
         try {
             for (String arg : args) {
 
@@ -30,7 +30,7 @@ public class CLIParser {
            assert true;
         }
 
-        // due to the implementation of this parser, it can not determine if just a '-c' was used.
+        // due to the implementation of this parser design pattern, it can not determine if just a '-c' was used.
         // for this edge case, we have this code to correct the behavior:
         // Note, this whole parser probably needs a refactor, but I am not sure of a way to do it better atm.
         if (c_flag == -1) {
