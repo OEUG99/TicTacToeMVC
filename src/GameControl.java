@@ -101,6 +101,7 @@ public class GameControl {
         switch(gamemode){
             case 0: // two computer mode:
                 input = computeAIMove(false);
+                View.drawMessage(input + "\n");
                 break;
             case 1: // computer is player 1, human player 2
                 if (current_turn == -1) {
