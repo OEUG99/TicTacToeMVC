@@ -147,10 +147,13 @@ public class GameControl {
         // ending the turn:
         Model.changeTurn();
 
+        /*
         if (shouldEndGame){
             View.drawMessage("--The final board--");
             View.drawBoard(Model.getBoard());
         }
+
+         */
 
         return shouldEndGame;
     }

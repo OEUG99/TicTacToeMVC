@@ -61,10 +61,10 @@ public class GameView {
                                                                                     convertIntToChar(board[2][1]),
                                                                                     convertIntToChar(board[2][2]));
 
-        System.out.println(r1);
-        System.out.println(r2);
-        System.out.println(r3);
-        System.out.println();
+        System.out.println(removeNonAscii(r1));
+        System.out.println(removeNonAscii(r2));
+        System.out.println(removeNonAscii(r3));
+        System.out.print(removeNonAscii("\n"));
 
     }
 
@@ -78,20 +78,28 @@ public class GameView {
             }
             str.append("\n");
         }
-        System.out.println(str);
-        System.out.println( " ------- ");
+        System.out.println(removeNonAscii(String.valueOf(str)));
+        System.out.println( removeNonAscii(" ------- "));
     }
 
     public void drawMessage(String message) {
-        System.out.println(message + "\n");
+        String result = removeNonAscii(message);
+        System.out.println(result + "\n");
     }
 
     public void drawInputMessage(int current_turn){
         String message = "Player " + convertToProperPlayerNumber(current_turn) + ", please enter a move(1-9) ";
-        System.out.println(message + "\n");
+        String result = removeNonAscii(message);
+        System.out.println(result + "\n");
     }
 
     public void drawWinMessages(String s, int current_turn){
         drawMessage(s + (current_turn * -1));
     }
+
+    private String removeNonAscii(String s){
+        String result = s.replaceAll("[^\\p{ASCII}]*$", ""); // front line, negation of ASCII, entire string
+        return result;
+    }
 }
+
