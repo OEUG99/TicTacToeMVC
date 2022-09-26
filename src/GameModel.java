@@ -33,7 +33,7 @@ public class GameModel {
     }
 
 
-    public int convertCordsToPos(int x, int y) {
+    private int convertCordsToPos(int x, int y) {
         return (x * 3) + (y % 3) + 1;
     }
 
@@ -76,7 +76,7 @@ public class GameModel {
     }
 
 
-    private boolean scanDiagnoles() { // todo this could probably be refractored
+    private boolean scanDiagnoles() {
         int[][] board = getBoard();
         int d1_sum = board[0][0] + board[1][1] + board[2][2];
         int d2_sum = board[2][0] + board[1][1] + board[0][2];
@@ -90,10 +90,9 @@ public class GameModel {
         int[][] board = getBoard();
         int result = 0; // if no winning spot return 0;
 
-        // todo: if have time before deadline try to finish the refractor of this, see commit [0952db953d4c9be7b4f48c9ffe6621cf5c6d1088](https://github.com/OEUG99/TicTacToeMVC/commit/0952db953d4c9be7b4f48c9ffe6621cf5c6d1088)
-        // was my attempt at that, but was rolled back due to not functioning.
+        // NOTE: This needs a major refactor, but functions as is, just looks terrible
 
-        // start of rows
+        // start of rows, player = turn_number (internal array elements consist of -1 or 1)
         if ( (board[0][0] + board[0][1] == 2 * player) && board[0][2] == 0) {
             result = 3;
         } else if ( (board[0][0] + board[0][2] == 2 * player) && board[0][1] == 0) {
@@ -172,7 +171,7 @@ public class GameModel {
         boolean isPlayableMove = false;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (getBoard()[i][j] == 0 || getBoard()[j][i] == 0) {
+                if (getBoard()[i][j] == 0 || getBoard()[j][i] == 0) { // 0 means empty space.
                     isPlayableMove = true;
                 }
             }
@@ -182,16 +181,12 @@ public class GameModel {
 
     public ArrayList<Integer> fetchPlayablePos() {
         int[][] board = getBoard();
-        // todo: ask if ArrayLists are allowed.
         ArrayList<Integer> playablePos = new ArrayList<Integer>(0);
-        //int[] possiblePos = new int[9];
 
-        int iter = 0;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (board[i][j] == 0) {
+                if (board[i][j] == 0) { // 0 means empty space.
                     playablePos.add(convertCordsToPos(i,j));
-                    iter = iter + 1;
                 }
             }
         }

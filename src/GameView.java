@@ -84,21 +84,23 @@ public class GameView {
 
     public void drawMessage(String message) {
         String result = removeNonAscii(message);
-        System.out.println(result + "\n");
+        System.out.println(result);
     }
 
     public void drawInputMessage(int current_turn){
-        String message = "Player " + convertToProperPlayerNumber(current_turn) + ", please enter a move(1-9) ";
+        String message = "Player " + convertToProperPlayerNumber(current_turn) + ", please enter a move(1-9): ";
         String result = removeNonAscii(message);
-        System.out.println(result + "\n");
+        System.out.print(result);
     }
 
     public void drawWinMessages(String s, int current_turn){
-        drawMessage(s + (current_turn * -1));
+        int convertTurn = (current_turn == -1 ? 1 : 2); // if the winning turn was -1 then it's p1, if it's not then p2
+        drawMessage(s + convertTurn);
+        System.out.print(removeNonAscii("\n"));
     }
 
     private String removeNonAscii(String s){
-        String result = s.replaceAll("[^\\p{ASCII}]*$", ""); // front line, negation of ASCII, entire string
+        String result = s.replaceAll("[^\\p{ASCII}]*$", ""); // front of string, unicode property of ASCII 0-127, entire string
         return result;
     }
 }

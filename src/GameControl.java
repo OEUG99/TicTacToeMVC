@@ -60,8 +60,8 @@ public class GameControl {
             return playableSpaces.get(ranChoice);
         } else {
             // if there are no good moves for the beatable bot to make, then random select:
-            playableSpaces = Model.fetchPlayablePos();
-            ranChoice = random.nextInt((playableSpaces.size()));
+            playableSpaces = Model.fetchPlayablePos(); // gettinga list of possible moves, storing in array.
+            ranChoice = random.nextInt((playableSpaces.size())); // random selecting an element from above array (equal distibution)
             return playableSpaces.get(ranChoice);
         }
     }
@@ -137,7 +137,7 @@ public class GameControl {
         View.drawBoard(Model.getBoard());
 
         if (Model.scanForWin()){
-            View.drawWinMessages("The Winner is ", current_turn);
+            View.drawWinMessages("The winner is player ", current_turn);
             shouldEndGame = true;
         } else if (Model.scanForDraw()) {
             View.drawMessage("There is a draw!");
