@@ -1,9 +1,9 @@
 public class GameView {
     public void init(int[][] board){
-        drawBoard(board);
         // anything else for initialization would go here, for example
         // if using a graphic library this is where you would initialize
         // window sizes etc.
+        drawBoard(board);
     }
 
     private char convertIntToChar(int x){
@@ -35,7 +35,7 @@ public class GameView {
     }
 
 
-    public void drawDebugBoard(int[][] board) {
+    public void _drawDebugBoard(int[][] board) {
         StringBuilder str = new StringBuilder();
         for (int[] row: board) {
 

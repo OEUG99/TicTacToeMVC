@@ -2,11 +2,28 @@ import java.util.Objects;
 
 public class CLIParser {
     private Integer c_flag = -1;
-    private boolean a_flag;
+    private boolean a_flag = false;
     private String current_Parameter;
 
 
     public CLIParser(String[] args){
+
+        int c_pos = 0, a_pos = 0;
+        for(int i = 0; i <= args.length -1; i++){
+            if (args[i].equalsIgnoreCase("-c")){
+                c_pos = i;
+            }
+            if (args[i].equalsIgnoreCase("-a")) {
+                a_pos = i;
+            }
+        }
+
+        if (a_pos < c_pos) {
+            System.out.println("The -a flag must come before the -c flag");
+            System.exit(0);
+        }
+
+
         try {
             for (String arg : args) {
 
@@ -18,21 +35,14 @@ public class CLIParser {
                 if (current_Parameter.equals("-c")) {
                     c_flag = Integer.parseInt(arg);
                     current_Parameter = null;
-                    continue;
-                }
-
-                if(current_Parameter.equals("-a")) {
-                    a_flag = true;
-                    current_Parameter = null;
                 }
             }
         } catch(NumberFormatException e) {
-           assert true;
+            assert true;
         }
 
         // due to the implementation of this parser design pattern, it can not determine if just a '-c' was used.
         // for this edge case, we have this code to correct the behavior:
-        // Note, this whole parser probably needs a refactor, but I am not sure of a way to do it better atm.
         if (c_flag == -1) {
             for (String arg : args){
                 if (Objects.equals(arg, "-c")){
@@ -41,6 +51,16 @@ public class CLIParser {
                 }
             }
         }
+
+        if (a_flag == false) {
+            for (String arg : args){
+                if (Objects.equals(arg, "-a")){
+                    a_flag = true;
+                    break;
+                }
+            }
+        }
+
     }
 
     public int getCFlag(){
@@ -54,6 +74,7 @@ public class CLIParser {
     public static void main(String[] args){
         CLIParser parser = new CLIParser(args);
         System.out.println(parser.c_flag);
+        System.out.println(parser.a_flag);
 
     }
 

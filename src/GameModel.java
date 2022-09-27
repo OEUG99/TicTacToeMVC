@@ -28,10 +28,6 @@ public class GameModel {
     }
 
 
-    public void updateBoard(int row, int col, int state) {
-        this.board[row][col] = state;
-    }
-
 
     private int convertCordsToPos(int x, int y) {
         return (x * 3) + (y % 3) + 1;
@@ -90,7 +86,6 @@ public class GameModel {
         int[][] board = getBoard();
         int result = 0; // if no winning spot return 0;
 
-        // NOTE: This needs a major refactor, but functions as is, just looks terrible
 
         // start of rows, player = turn_number (internal array elements consist of -1 or 1)
         if ( (board[0][0] + board[0][1] == 2 * player) && board[0][2] == 0) {
@@ -190,6 +185,26 @@ public class GameModel {
                 }
             }
         }
+
+        return playablePos;
+    }
+    public ArrayList<Integer> fetchPlayableCornerPos(){
+        int[][] board = getBoard();
+        ArrayList<Integer> playablePos = new ArrayList<Integer>(0);
+
+        if(board[0][0] == 0) {
+            playablePos.add(1);
+        }
+        if(board[0][2] == 0){
+            playablePos.add(3);
+        }
+        if(board[2][0] == 0){
+            playablePos.add(7);
+        }
+        if(board[2][2] == 0){
+            playablePos.add(9);
+        }
+
 
         return playablePos;
     }

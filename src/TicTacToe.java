@@ -23,7 +23,9 @@ public class TicTacToe {
 
         // Initializing the view;
         View.init(Model.getBoard());
+
         Control.setGamemode(parser.getCFlag());
+        Control.setAIDificulty(parser.getAFlag());
 
         while(isGameAlive){
             if(Control.update()) {

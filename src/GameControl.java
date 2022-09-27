@@ -9,6 +9,8 @@ public class GameControl {
     private final GameModel Model;
     private int gamemode;
 
+    private boolean isUnbeatable;
+
     public GameControl(GameView v, GameModel m){
         this.View = v;
         this.Model = m;
@@ -28,12 +30,14 @@ public class GameControl {
         this.gamemode = gamemode;
     }
 
+    public void setAIDificulty(boolean a_flag){ this.isUnbeatable = a_flag; }
+
     /**
      * <p> This method generates a move for any AI player.
-     * @param isUnbeatable determines if the algorithm will generate an unbeatable move.
+     * this.isUnbeatable determines if the algorithm will generate an unbeatable move.
      * @return the position (1-9) that the algorithm determines is needed to be played.
      */
-    private int computeAIMove(boolean isUnbeatable){
+    private int computeAIMove(){
         int winningPos = Model.getWinningPos(Model.getCurrent_turn()); // agnostic of any player.
         int winningEnemyPos = Model.getWinningPos(Model.getCurrent_turn() * -1);
 
@@ -53,6 +57,13 @@ public class GameControl {
         }
         if (isUnbeatable){
             // todo - write unbeatable code
+            ArrayList<Integer> corners = Model.fetchPlayableCornerPos();
+
+            if (corners.size() > 0){ // if a corner is free, take it.
+                ranChoice = random.nextInt((corners.size()));
+                return corners.get(ranChoice);
+            }
+
             playableSpaces = Model.fetchPlayablePos();
             ranChoice = random.nextInt((playableSpaces.size()));
             return playableSpaces.get(ranChoice);
@@ -98,12 +109,12 @@ public class GameControl {
 
         switch(gamemode){
             case 0: // two computer mode:
-                input = computeAIMove(false);
+                input = computeAIMove();
                 View.drawMessage(input + "\n");
                 break;
             case 1: // computer is player 1, human player 2
                 if (current_turn == -1) {
-                    input = computeAIMove(false);
+                    input = computeAIMove();
                     View.drawMessage(input + "\n");
                 } else {
                     input = getUserInput();
@@ -111,7 +122,7 @@ public class GameControl {
                 break;
             case 2: // human player 1, computer player 2
                 if (current_turn == 1) {
-                    input = computeAIMove(false);
+                    input = computeAIMove();
                     View.drawMessage(input + "\n");
                 } else {
                     input = getUserInput();
@@ -146,14 +157,6 @@ public class GameControl {
 
         // ending the turn:
         Model.changeTurn();
-
-        /*
-        if (shouldEndGame){
-            View.drawMessage("--The final board--");
-            View.drawBoard(Model.getBoard());
-        }
-
-         */
 
         return shouldEndGame;
     }
