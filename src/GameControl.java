@@ -76,7 +76,6 @@ public class GameControl {
             try{
                 Scanner scanner = new Scanner(System.in);
                 input = scanner.nextInt();
-                View.drawMessage("\n\n"); // blank space needed to match formatting of assignment.
                 break;
             } catch (InputMismatchException e){
                 View.drawMessage("Invalid input, please try again: ");

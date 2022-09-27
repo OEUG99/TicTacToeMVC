@@ -84,7 +84,7 @@ public class GameView {
 
     public void drawMessage(String message) {
         String result = removeNonAscii(message);
-        System.out.println(result);
+        System.out.print(result);
     }
 
     public void drawInputMessage(int current_turn){
