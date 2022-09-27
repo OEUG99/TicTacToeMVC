@@ -43,8 +43,6 @@ public class GameControl {
 
 
         if (winningPos != 0) { // if there is a winning move for the player take it
-            // todo: there is a case where both players have a winning move, the algorithm fails.
-            // as it does not always play the most ideal move to win teh game.
             return winningPos;
         }
         if (winningEnemyPos != 0) {
@@ -142,7 +140,7 @@ public class GameControl {
             View.drawWinMessages("The winner is player ", current_turn);
             shouldEndGame = true;
         } else if (Model.scanForDraw()) {
-            View.drawMessage("There is a draw!");
+            View.drawMessage("There is a draw!\n");
             shouldEndGame = true;
         }
 
