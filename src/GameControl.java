@@ -84,6 +84,11 @@ public class GameControl {
             try{
                 Scanner scanner = new Scanner(System.in);
                 input = scanner.nextInt();
+
+                if (input > 9 || input < 1){ // if an int, but out of range
+                    throw new InputMismatchException();
+                }
+
                 break;
             } catch (InputMismatchException e){
                 View.drawMessage("Invalid input, please try again: ");
