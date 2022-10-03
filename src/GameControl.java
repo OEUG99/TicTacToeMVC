@@ -84,11 +84,6 @@ public class GameControl {
             try{
                 Scanner scanner = new Scanner(System.in);
                 input = scanner.nextInt();
-
-                if (input > 9 || input < 1){ // if an int, but out of range
-                    throw new InputMismatchException();
-                }
-
                 break;
             } catch (InputMismatchException e){
                 View.drawMessage("Invalid input, please try again: ");
@@ -182,8 +177,8 @@ public class GameControl {
             int PlayersMove = processPlayerMove(); // Fetching input for current turn player.
 
             if (!Model.updateBoard(PlayersMove,current_turn)) { // if the input is not valid,
-                View.drawMessage("invalid input, please try again. \n");
-                View.drawBoard(Model.getBoard());
+                View.drawMessage("invalid input, please try again: \n");
+                //View.drawBoard(Model.getBoard());
             } else {
                 break;
             }
