@@ -87,7 +87,7 @@ public class GameControl {
 
                 break;
             } catch (InputMismatchException e){
-                View.drawMessage("Invalid input, please try again. ");
+                View.drawMessage("Invalid input, please try again. \n");
                 View.drawBoard(Model.getBoard());
                 View.drawInputMessage(Model.getCurrent_turn());
 
