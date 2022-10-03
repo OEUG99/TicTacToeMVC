@@ -1,12 +1,27 @@
 import java.util.Objects;
 
+
+
 public class CLIParser {
     private Integer c_flag = -1;
     private boolean a_flag = false;
     private String current_Parameter;
 
 
+
+    /**
+     * <p>This class represents a parser</p>
+     * it processes the list of arguments.
+     * @param args command line arguments
+     */
     public CLIParser(String[] args){
+        /*
+        This class is heavily based on Finite-State Machines, and is a primary driving force for this design pattern.
+        reference: https://en.wikipedia.org/wiki/Finite-state_machine
+
+        This is the only half-decent way that I've learned about that could parse arguments, without bringing in something like regex.
+         */
+
 
         int c_pos = 0, a_pos = 0;
         for(int i = 0; i <= args.length -1; i++){
@@ -52,7 +67,7 @@ public class CLIParser {
             }
         }
 
-        if (a_flag == false) {
+        if (!a_flag) {
             for (String arg : args){
                 if (Objects.equals(arg, "-a")){
                     a_flag = true;
@@ -63,19 +78,18 @@ public class CLIParser {
 
     }
 
+    /**
+     * <p>Returns the CFLAG</p>s
+     *
+     */
     public int getCFlag(){
         return (c_flag == null ? -1 : c_flag);
     }
 
+    /**
+     * <p>Returns the AFLAG</p>s
+     */
     public boolean getAFlag(){
         return this.a_flag;
     }
-
-    public static void main(String[] args){
-        CLIParser parser = new CLIParser(args);
-        System.out.println(parser.c_flag);
-        System.out.println(parser.a_flag);
-
-    }
-
 }

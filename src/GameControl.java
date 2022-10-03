@@ -49,18 +49,17 @@ public class GameControl {
         if (winningPos != 0) { // if there is a winning move for the player take it
             return winningPos;
         }
-        if (winningEnemyPos != 0) {
+        if (winningEnemyPos != 0) { // if there is a winning move needing to be blocked
             return winningEnemyPos;
         }
         if (Model.getBoard()[1][1] == 0){ // if center of the board is avaliable, take it.
             return 5;
         }
         if (isUnbeatable){
-            // todo - write unbeatable code
             ArrayList<Integer> corners = Model.fetchPlayableCornerPos();
 
             if (corners.size() > 0){ // if a corner is free, take it.
-                ranChoice = random.nextInt((corners.size()));
+                ranChoice = random.nextInt((corners.size())); // randomly selecting from avaliable corners.
                 return corners.get(ranChoice);
             }
 
@@ -69,7 +68,7 @@ public class GameControl {
             return playableSpaces.get(ranChoice);
         } else {
             // if there are no good moves for the beatable bot to make, then random select:
-            playableSpaces = Model.fetchPlayablePos(); // gettinga list of possible moves, storing in array.
+            playableSpaces = Model.fetchPlayablePos(); // getting a list of possible moves, storing in array.
             ranChoice = random.nextInt((playableSpaces.size())); // random selecting an element from above array (equal distibution)
             return playableSpaces.get(ranChoice);
         }
@@ -178,7 +177,7 @@ public class GameControl {
             int PlayersMove = processPlayerMove(); // Fetching input for current turn player.
 
             if (!Model.updateBoard(PlayersMove,current_turn)) { // if the input is not valid,
-                View.drawMessage("invalid input, please try again.");
+                View.drawMessage("invalid input, please try again. \n");
                 View.drawBoard(Model.getBoard());
             } else {
                 break;

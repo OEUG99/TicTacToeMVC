@@ -2,11 +2,14 @@
 
 /*
 TicTacToe written in Java using a pure MVC design pattern.
-The benefit to using MVC is that the viewing code, data modeling/storage, and input/controlling
-is all isolated.
 
-In theory, you can swap these components with others. For example, the view can be swapped out with a view for a graphics
-library instead of ascii, and all the rest of the code will function the same.
+Why MVC? Using this design pattern allows for the creation of a loosely coupled system, meaning the presentation, the processing,
+and storage of data are seperate. This allows for easier maintability and porting.
+
+A good example would be to subsuite the Ascii user interface with a graphics library. Since the view code is seperate,
+to port the game to a graphics library you only have to modify the view component. This is nice because it means the
+rest of your code will be unchanged and won't run into bugs as a result of porting to a graphics library.
+
  */
 public class TicTacToe {
 

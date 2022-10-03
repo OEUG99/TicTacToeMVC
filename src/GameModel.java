@@ -15,14 +15,27 @@ public class GameModel {
                                 // this allows us to easily convert between which player's turn it is via multiply by -1.
     }
 
+
+    /**
+     * <p>returns the internal data array for the game </p>
+     */
     public int[][] getBoard() {
         return board;
     }
 
+    /**
+     * <p>Gets the int value for which player's turn it currently is </p>
+     * -1 is mapped to player 1.
+     * 1 is mapped to player 2.
+     */
     public int getCurrent_turn(){
         return current_turn;
     }
 
+
+    /**
+     * <p>Changes to the next players turn</p>
+     */
     public void changeTurn(){
         current_turn *= -1;
     }
@@ -34,6 +47,11 @@ public class GameModel {
     }
 
 
+    /**
+     * <p>updates the internal data array for the game</p>
+     * @param pos the tictactoe box selected to be updated (number 1-9)
+     * @param current_turn which player selected the box.
+     */
     public boolean updateBoard(int pos, int current_turn) {
         boolean result = false;
         int col = (pos - 1) % 3;
@@ -51,9 +69,12 @@ public class GameModel {
         return result;
     }
 
+    /**
+     * <p>Scans for a winner</p>
+     * This method is agnostic of whose turn it is, returns true if ANY player has won.
+     */
     public boolean scanForWin() {
         int[][] board = getBoard();
-        boolean result = false;
 
         for (int i = 0; i < 3; i++) {
             int csum = 0;
@@ -81,7 +102,10 @@ public class GameModel {
     }
 
 
-
+    /**
+     * <p>Returns a winning position if there is one.</p>
+     * @param player the player we are scanning for. -1 for p1, 1 for p2.
+     */
     public int getWinningPos(int player) {
         int[][] board = getBoard();
         int result = 0; // if no winning spot return 0;
@@ -161,7 +185,9 @@ public class GameModel {
 
     }
 
-
+    /**
+     * <p>Returns true if there is a draw</p>
+     */
     public boolean scanForDraw() {
         boolean isPlayableMove = false;
         for (int i = 0; i < 3; i++) {
@@ -174,9 +200,12 @@ public class GameModel {
         return !(isPlayableMove); // If there is no playable move it's a draw.
     }
 
+    /**
+     * <p>Returns an array of playable positions. </p>
+     */
     public ArrayList<Integer> fetchPlayablePos() {
         int[][] board = getBoard();
-        ArrayList<Integer> playablePos = new ArrayList<Integer>(0);
+        ArrayList<Integer> playablePos = new ArrayList<>(0);
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -190,7 +219,7 @@ public class GameModel {
     }
     public ArrayList<Integer> fetchPlayableCornerPos(){
         int[][] board = getBoard();
-        ArrayList<Integer> playablePos = new ArrayList<Integer>(0);
+        ArrayList<Integer> playablePos = new ArrayList<>(0);
 
         if(board[0][0] == 0) {
             playablePos.add(1);
