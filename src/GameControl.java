@@ -183,7 +183,6 @@ public class GameControl {
             if (!Model.updateBoard(PlayersMove,current_turn)) { // if the input is not valid,
                 View.drawMessage("invalid input, please try again. \n");
                 View.drawBoard(Model.getBoard());
-                View.drawInputMessage(current_turn);
             } else {
                 break;
             }
