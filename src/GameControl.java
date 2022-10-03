@@ -84,9 +84,13 @@ public class GameControl {
             try{
                 Scanner scanner = new Scanner(System.in);
                 input = scanner.nextInt();
+
                 break;
             } catch (InputMismatchException e){
-                View.drawMessage("Invalid input, please try again: ");
+                View.drawMessage("Invalid input, please try again. ");
+                View.drawBoard(Model.getBoard());
+                View.drawInputMessage(Model.getCurrent_turn());
+
             }
         }
 
@@ -177,8 +181,9 @@ public class GameControl {
             int PlayersMove = processPlayerMove(); // Fetching input for current turn player.
 
             if (!Model.updateBoard(PlayersMove,current_turn)) { // if the input is not valid,
-                View.drawMessage("invalid input, please try again: \n");
-                //View.drawBoard(Model.getBoard());
+                View.drawMessage("invalid input, please try again. \n");
+                View.drawBoard(Model.getBoard());
+                View.drawInputMessage(current_turn);
             } else {
                 break;
             }
